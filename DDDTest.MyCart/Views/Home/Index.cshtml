@@ -1,0 +1,137 @@
+﻿@model DDDTest.MyCart.Models.Sales
+
+@{
+    ViewBag.Title = "Product";
+}
+
+@section Css
+{
+    <style type="text/css">
+        *{
+            margin:0;padding:0
+        }
+
+        .container {
+            overflow:hidden
+        }
+        
+        
+        .products {
+            width: 450px;
+            overflow: hidden;
+            float:left
+        }
+
+        .product {
+            width:220px;height:280px;float:left
+        }
+
+            .product ul {
+                list-style-type:none;
+                overflow:hidden
+            }
+
+                .product ul .image {
+                    width: 200px;
+                    height: 200px;
+                    border: 1px ActiveBorder solid;
+                }
+
+                .product ul .price {
+                    color:red;font-size:11pt;
+                    float:left
+                }
+
+                .product ul .buy {
+                    float: right;
+                    margin-right:20px
+                }
+
+
+
+        .mycart {
+            width: 480px;
+            float: right;
+            padding: 1em;
+        }
+
+        .mycart, ul {
+            list-style-type:none
+        }
+
+        .cart {
+           
+        }
+
+            .cart .cartHead {
+                overflow: hidden;
+                height:50px;
+                font-size:12pt;
+                font-weight:bold
+            }
+            
+            .cart .cartHead li {
+                float:left;
+            }
+
+            .cart .cartItem {
+                overflow: hidden;
+                border-bottom:1px blue solid;
+            }
+
+                .cart .cartItem li {
+                    float: left;
+                }
+
+            .cart .cartTotal {
+                overflow: hidden;
+                height: 50px;
+                line-height:50px;
+                font-size: 12pt;
+                font-weight: bold;
+                text-align:right
+            }
+            .cart .cartTotal li{
+                float:right
+            }
+    </style>
+}
+
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        var cart = {};
+        cart.customerId = "ff28f4e4-1bb6-4471-8205-93d34f438fc1";
+        cart.addItem = function (pid) {
+            var that = this;
+            var data = { CustomerId: that.customerId, ProductId: pid };
+            $.post("/Home/AddItem", data, function (res,status) {
+                $(".mycart").first().html(res);
+            });
+        }
+    </script>    
+}
+
+<div class="container">
+    <h2>Product</h2>
+
+    <div class="products">
+        @foreach (var item in Model.Products)
+        {
+            <div class="product">
+                <ul>
+                    <li><img src="@item.ImgPath" class="image"></li>
+                    <li>@item.Title</li>
+                    <li class="price">价格：@item.Price</li>
+                    <li class="buy"><a href="javascript:void(0)" onclick="cart.addItem('@item.Id')">购买</a></li>
+                </ul>
+            </div>
+        }
+    </div>
+
+    <div class="mycart">
+        @Html.Partial("_MyCart",Model.Cart)
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@{
+    Layout = null;
+}
+@model DDDTest.ServiceContract.Dto.ShoppingCart
+
+<ul class="cart">
+    <li class="cartHead">
+        <ul>
+            <li style="width:120px">商品</li>
+            <li style="width:80px">单价</li>
+            <li style="width:80px">数量</li>
+            <li style="width:80px">小计</li>
+        </ul>
+    </li>
+    @if (Model != null && Model.Items != null)
+    {
+        foreach (var item in Model.Items)
+        {
+            <li class="cartItem">
+                <ul>
+                    <li style="width:120px">@item.ProductId</li>
+                    <li style="width:80px">@item.SalesPrice</li>
+                    <li style="width:80px">@item.Quantity</li>
+                    <li style="width:80px">@item.ItemTotal</li>
+                </ul>
+            </li>
+        }
+    }
+    <li class="cartTotal">总计:@Model.GoodsTotal</li>
+</ul>
+
+
